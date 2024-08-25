@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 require('dotenv').config(); // Ensure this is called before using any environment variables
 
 const app = express();
-const PORT = process.env.PORT || 3010;
+const PORT = process.env.PORT || 3000; // Use PORT environment variable or fallback to 3000
 
 // Create a MySQL connection pool
 const pool = createPool({
@@ -25,10 +25,6 @@ app.get('/', (req, res) => {
 
 // Add School API
 app.post('/addSchool', (req, res) => {
-  console.log('Request to /addSchool with body:', req.body);
-  // Rest of the code...
-
-
   const { name, address, latitude, longitude } = req.body;
 
   // Validate the input data
@@ -50,13 +46,8 @@ app.post('/addSchool', (req, res) => {
   );
 });
 
-
 // List Schools API
 app.get('/listSchools', (req, res) => {
-  console.log('Request to /listSchools with query:', req.query);
-  // Rest of the code...
-
-
   const { latitude, longitude } = req.query;
 
   if (!latitude || !longitude) {
@@ -87,21 +78,8 @@ app.get('/listSchools', (req, res) => {
     res.json(results);
   });
 });
-const mysql = require('mysql');
-
-
-
-pool.getConnection((err, connection) => {
-  if (err) {
-    console.error('Error connecting to MySQL database:', err.message);
-  } else {
-    console.log('Connected to MySQL database successfully.');
-    connection.release();
-  }
-});
-
 
 // Start the server
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => { // Bind to 0.0.0.0 as required by Render
   console.log(`Server running on port ${PORT}`);
 });
