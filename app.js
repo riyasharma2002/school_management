@@ -25,6 +25,10 @@ app.get('/', (req, res) => {
 
 // Add School API
 app.post('/addSchool', (req, res) => {
+  console.log('Request to /addSchool with body:', req.body);
+  // Rest of the code...
+
+
   const { name, address, latitude, longitude } = req.body;
 
   // Validate the input data
@@ -46,8 +50,13 @@ app.post('/addSchool', (req, res) => {
   );
 });
 
+
 // List Schools API
 app.get('/listSchools', (req, res) => {
+  console.log('Request to /listSchools with query:', req.query);
+  // Rest of the code...
+
+
   const { latitude, longitude } = req.query;
 
   if (!latitude || !longitude) {
@@ -78,6 +87,19 @@ app.get('/listSchools', (req, res) => {
     res.json(results);
   });
 });
+const mysql = require('mysql');
+
+
+
+pool.getConnection((err, connection) => {
+  if (err) {
+    console.error('Error connecting to MySQL database:', err.message);
+  } else {
+    console.log('Connected to MySQL database successfully.');
+    connection.release();
+  }
+});
+
 
 // Start the server
 app.listen(PORT, () => {
